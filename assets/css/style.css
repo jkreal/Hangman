@@ -1,0 +1,31 @@
+.main-content{
+	height: 70vh;
+}
+
+img{
+	border: 2px solid black;
+	border-radius: 25px;
+}
+
+.row-2{
+	margin-top: 20px;
+	height: 15vh;
+}
+
+.dropdown-menu{
+	left: 50%;
+  right: auto;
+  text-align: center;
+	transform: translate(-50%, 0);
+	margin-left: 40px;
+}
+
+/* All columns will be centered */
+[class*='col-']{
+	text-align: center;
+}
+
+
+#consonants{
+	text-align: left;
+}
