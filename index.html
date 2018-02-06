@@ -7,7 +7,7 @@
 	<meta http-equiv="X-UA-Compatible" content="ie=edge">
 	<title>Hangman PRO</title>
 
-	<!-- jQuery is required for drop down menus, unfortunately :() -->
+	<!-- jQuery is required for drop down menus, unfortunately :( -->
 	<script src="http://code.jquery.com/jquery-3.3.1.js" integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60=" crossorigin="anonymous"></script>
 
 	<!-- Bootstrap JS -->
@@ -21,6 +21,9 @@
 	<!-- Custom stylesheet -->
 	<link rel="stylesheet" href="./assets/css/style.css">
 
+	<!-- Google Fonts -->
+	<link href="https://fonts.googleapis.com/css?family=Dhurjati|Rammetto+One" rel="stylesheet">
+
 </head>
 
 <body>
@@ -32,8 +35,15 @@
 
 	<div class="container">
 		<div class="jumbotron main-content">
-
+			<!-- Row 1: Status Header -->
 			<div class="row row-1">
+
+				<div class="col-md-12" id="status-text">
+					<h2>Select a Wordset below and click Play Game!</h2>
+				</div>
+			</div>
+
+			<div class="row row-2">
 
 				<div class="col-md-12 image-col">
 					<img src="./assets/images/hangman-default.png" alt="Hangman!" class="hangman-image">
@@ -41,7 +51,7 @@
 
 			</div>
 
-			<div class="row row-2">
+			<div class="row row-3">
 				<div class="col-md-12">
 
 					<div class="dropdown">
@@ -62,30 +72,45 @@
 								<a href="#" id="wordset-3">Calculus</a>
 							</li>
 						</ul>
+					</div>
+
+					<div class="row">
+
+						<div class="col-md-12" id="play">
+							<button type="button" id="play-btn" class="btn btn-default">Play Game!</button>
+						</div>
 
 					</div>
+
+					<div class="row">
+						<div class="col-md-4">
+							<p>Guessed Letters:</p>
+						</div>
+						<div class="col-md-4">
+							<p>Wins:</p>
+						</div>
+						<div class="col-md-4">
+							<p>Guesses Remaining:</p>
+						</div>
+					</div>
+
 				</div>
 			</div>
 
-			<div class="row row-3">
+			<div class="row row-4">
 
-				<div class="col-md-4">
-					<div id="vowels" class="btn-group" role="group">
-
-					</div>
-				</div>
-
-				<div class="col-md-8" class="btn-group" role="group">
-					<div id="consonants">
+				<div class="col-md-12">
+					<div id="letter-buttons" class="btn-group" role="group">
 
 					</div>
 				</div>
 
 			</div>
+
 		</div>
 	</div>
 
-	<script src="./assets/javascript/hangman.js"></script>
+	<script src="./assets/javascript/game.js"></script>
 </body>
 
 </html>

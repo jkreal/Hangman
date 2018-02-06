@@ -1,5 +1,5 @@
 .main-content{
-	height: 70vh;
+	height: 75vh;
 }
 
 img{
@@ -7,9 +7,18 @@ img{
 	border-radius: 25px;
 }
 
-.row-2{
-	margin-top: 20px;
+.row-3{
 	height: 15vh;
+	margin: auto;
+	margin-top: 20px;
+}
+
+.play{
+	margin-top: 1vh;
+}
+
+.image-buttons{
+	margin-top: 1vh;
 }
 
 .dropdown-menu{
@@ -20,12 +29,33 @@ img{
 	margin-left: 40px;
 }
 
-/* All columns will be centered */
+/* All columns' text will be centered */
 [class*='col-']{
 	text-align: center;
 }
 
+h1, h2{
+	font-family: Rammetto One;
+}
 
-#consonants{
-	text-align: left;
+p{
+	font-family: Dhurjati;
+}
+
+button{
+	font-family: Dhurjati;
+	font-size: 20px;
+}
+
+#play-btn{
+	font-size: 30px;
+}
+
+#wordset-dropdown {
+	font-size: 20px;
+}
+
+.dropdown-menu{
+	font-family: Dhurjati;
+	font-size: 20px;
 }
