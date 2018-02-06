@@ -4,6 +4,8 @@
 	Make letters appear over underscores
 	Handle a win/loss*/
 
+var overGame = false;
+var win = false;
 var underscore = ' ';
 var guesses = -1;
 var wordsetSelection = 'default';
@@ -11,6 +13,7 @@ var word = '@';
 var wordArray = [];
 var guessArray = [];
 
+var dropdownLine = document.getElementById("dropdown-line");
 var wordsetDropdown = document.getElementById("wordset-dropdown");
 var wordset1 = document.getElementById("wordset-1");
 var wordset2 = document.getElementById("wordset-2");
@@ -53,9 +56,30 @@ window.onload = function () {
 
 	playButton.addEventListener("click", function () {
 		playGameButton();
+
 	});
 }
 
+function reset() {
+	image.src = "./assets/images/hangman-2.png";
+	overGame = false;
+	win = false;
+	underscore = ' ';
+	guesses = -1;
+	wordsetSelection = 'default';
+	word = '@';
+	wordArray = [];
+	guessArray = [];
+}
+
+function removeChildren(item) {
+	for (var i = 1; i < item.childElementCount; i++) {
+		if (item.hasChildNodes) {
+			item.removeChild(item.childNodes[i]);
+			console.log("child removed");
+		}
+	}
+}
 
 function generateText(array) {
 	var hiddenDisplay = '';
@@ -81,48 +105,73 @@ function generateText(array) {
 	console.log(underscore);
 }
 
-function updateImage() {
-
-}
-
 function playGameButton() {
 	playGame = true;
+	startGame();
+}
 
-	switch (wordsetSelection) {
-		case 'default':
-			alert("You must choose a wordset to continue!");
-			break;
-		case 'elements':
-			document.getElementById("status-text").innerHTML = "<h2>Wordset: Chemistry Elements</h2>";
-			playButton.style.visibility = 'hidden';
-			wordsetDropdown.style.visibility = 'hidden';
-			playLine.removeChild(playButton);
-			generateLetters();
-			generateText(elements);
-			break;
-		case 'webdev':
-			document.getElementById("status-text").innerHTML = "<h2>Wordset: Web Development</h2>";
-			playButton.style.visibility = 'hidden';
-			wordsetDropdown.style.visibility = 'hidden';
-			generateLetters();
-			generateText(webdev);
-			break;
-		case 'calculus':
-			document.getElementById("status-text").innerHTML = "<h2>Wordset: Calculus</h2>";
-			playButton.style.visibility = 'hidden';
-			wordsetDropdown.style.visibility = 'hidden';
-			generateLetters();
-			generateText(calculus);
-			break;
-		default:
-			alert("Please select a wordset to continue!");
-			break;
+function startGame() {
+	if (overGame === false) {
+		switch (wordsetSelection) {
+			case 'default':
+				alert("You must choose a wordset to continue!");
+				break;
+			case 'elements':
+				document.getElementById("status-text").innerHTML = "<h2>Wordset: Chemistry Elements</h2>";
+				playButton.style.visibility = 'hidden';
+				wordsetDropdown.style.visibility = 'hidden';
+				if (playLine.hasChildNodes) {
+					playLine.removeChild(playButton);
+				}
+				generateLetters();
+				generateText(elements);
+				break;
+			case 'webdev':
+				document.getElementById("status-text").innerHTML = "<h2>Wordset: Web Development</h2>";
+				playButton.style.visibility = 'hidden';
+				wordsetDropdown.style.visibility = 'hidden';
+				if (playLine.hasChildNodes) {
+					playLine.removeChild(playButton);
+				}
+				generateLetters();
+				generateText(webdev);
+				break;
+			case 'calculus':
+				document.getElementById("status-text").innerHTML = "<h2>Wordset: Calculus</h2>";
+				playButton.style.visibility = 'hidden';
+				wordsetDropdown.style.visibility = 'hidden';
+				if (playLine.hasChildNodes) {
+					playLine.removeChild(playButton);
+				}
+				generateLetters();
+				generateText(calculus);
+				break;
+			default:
+				alert("Please select a wordset to continue!");
+				break;
+		}
+
+	} else {
+		playAgain();
 	}
+}
+
+function playAgain() {
+	removeChildren(playLine);
+	removeChildren(dropdownLine);
+	removeChildren(playLine);
+	removeChildren(playLine);
+	removeChildren(playLine);
+
+	playLine.appendChild(playButton);
+	dropdownLine.appendChild(wordsetDropdown);
+	wordsetDropdown.style.visibility = 'visible';
 }
 
 function generateLetters() {
 	guesses = 7;
 	setImage();
+
 	for (var i = 0; i < 26; i++) {
 
 		var letter = document.createElement("BUTTON");
@@ -151,50 +200,77 @@ function generateLetters() {
 	}
 
 	function findLetters(letter) {
-		console.log(wordArray);
-		console.log(guessArray);
-		console.log(letter);
-
-		if (wordArray.includes(letter)) {
-			for (var i = 0; i < wordArray.length; ++i) {
-				if (wordArray[i] == letter) {
-					guessArray[i] = wordArray[i];
-				}
-			}
+		if (playGame === true) {
+			console.log(wordArray);
 			console.log(guessArray);
-		} else {
-			guesses -= 1;
-		}
+			console.log(letter);
 
-		document.getElementById('letter-' + letter).remove();
-		updateGame();
+			if (wordArray.includes(letter)) {
+				for (var i = 0; i < wordArray.length; ++i) {
+					if (wordArray[i] == letter) {
+						guessArray[i] = wordArray[i];
+					}
+				}
+				console.log(guessArray);
+			} else {
+				guesses -= 1;
+			}
+
+			document.getElementById('letter-' + letter).remove();
+			updateGame();
+
+		}
 	}
 
 	function updateGame() {
-		for (var i = 1; i < playLine.childElementCount; i++) {
-			if (playLine.hasChildNodes) {
-				playLine.removeChild(playLine.childNodes[i]);
-			}
-		}
-		playLine.appendChild(underscore);
 
-		var hiddenDisplay2 = '';
+		removeChildren(playLine);
+		playLine.appendChild(underscore);
+		updateHiddenWord();
+
+		setImage();
+		if (guesses <= 0) {
+			win = false;
+			gameOver();
+		}
+
+		if (!guessArray.includes("_")) {
+			win = true;
+			gameOver();
+		}
+	}
+
+	function updateHiddenWord() {
+		var hiddenDisplay = '';
 		for (var i = 0; i < word.length; ++i) {
 			if (guessArray[i] != "_") {
-				hiddenDisplay2 += guessArray[i] + ' ';
+				hiddenDisplay += guessArray[i] + ' ';
 			}
 			else {
-				hiddenDisplay2 += '_ ';
+				hiddenDisplay += '_ ';
 			}
 
-			setImage();
 		}
-
-		var content = document.createTextNode(hiddenDisplay2);
+		var content = document.createTextNode(hiddenDisplay);
 		underscore.appendChild(content);
 		underscore.removeChild(underscore.childNodes[0]);
 	}
 
+	function gameOver() {
+		playGame = false;
+		overGame = true;
+		if (win === true) {
+			statusText.innerHTML = "<h2>You win!!</h2>";
+		} else {
+			statusText.innerHTML = "<h2>LOSER!</h2>";
+			updateHiddenWord();
+		}
+
+		removeChildren(dropdownLine);
+		dropdownLine.appendChild(playButton);
+		playButton.style.visibility = 'visible';
+		playButton.innerHTML = 'Play Again!';
+	}
 
 	function setImage() {
 		switch (guesses) {
@@ -224,9 +300,6 @@ function generateLetters() {
 				break;
 			case 8:
 				image.src = "./assets/images/hangman-1.png";
-				break;
-			case 9:
-				image.src = "./assets/images/hangman-0.png";
 				break;
 			default:
 				break;
