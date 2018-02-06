@@ -12,6 +12,12 @@ var wordsetSelection = 'default';
 var word = '@';
 var wordArray = [];
 var guessArray = [];
+var again = false;
+var image = document.getElementById('hangman-image');
+var playGame = false;
+var wins = 0;
+var losses = 0;
+var guessedLetters = '';
 
 var dropdownLine = document.getElementById("dropdown-line");
 var wordsetDropdown = document.getElementById("wordset-dropdown");
@@ -33,8 +39,7 @@ var elements = ['HELIUM', 'ARGON', 'POTASSIUM', 'OXYGEN', 'HYDROGEN'];
 var webdev = ['ELEMENT', 'ARRAY', 'JQUERY', 'JAVASCRIPT', 'HTML', 'STRING'];
 var calculus = ['INTEGRAL', 'DERIVATIVE'];
 
-var image = document.getElementById('hangman-image');
-var playGame = false;
+
 
 // Onload
 window.onload = function () {
@@ -56,8 +61,23 @@ window.onload = function () {
 
 	playButton.addEventListener("click", function () {
 		playGameButton();
-
 	});
+}
+
+function removeChildren(item) {
+	for (var i = 0; i < item.childElementCount; i++) {
+		if (item.hasChildNodes()) {
+			item.removeChild(item.childNodes[i]);
+			console.log("child removed");
+		}
+	}
+}
+
+function updateText() {
+	document.getElementById("guessed-letters").innerHTML = 'Guessed Letters: ' + guessedLetters;
+	document.getElementById("wins").innerHTML = 'Wins: ' + wins;
+	document.getElementById("losses").innerHTML = 'Losses: ' + losses;
+	document.getElementById("guesses-remaining").innerHTML = 'Guesses Remaining: ' + guesses;
 }
 
 function reset() {
@@ -65,20 +85,27 @@ function reset() {
 	overGame = false;
 	win = false;
 	underscore = ' ';
-	guesses = -1;
-	wordsetSelection = 'default';
+	guesses = 7;
 	word = '@';
 	wordArray = [];
 	guessArray = [];
-}
+	again = false;
+	guessedLetters = '';
 
-function removeChildren(item) {
-	for (var i = 1; i < item.childElementCount; i++) {
-		if (item.hasChildNodes) {
-			item.removeChild(item.childNodes[i]);
-			console.log("child removed");
+	updateText();
+
+	for (var i = 0; i < 26; ++i) {
+		if (document.getElementById('letter-' + letters[i]) != null) {
+
+			document.getElementById('letter-' + letters[i]).remove();
+
 		}
 	}
+
+	removeChildren(playLine);
+	removeChildren(dropdownLine);
+	removeChildren(letterButtons);
+
 }
 
 function generateText(array) {
@@ -102,10 +129,10 @@ function generateText(array) {
 
 	console.log(hiddenDisplay);
 	playLine.appendChild(underscore);
-	console.log(underscore);
 }
 
 function playGameButton() {
+	reset();
 	playGame = true;
 	startGame();
 }
@@ -120,9 +147,7 @@ function startGame() {
 				document.getElementById("status-text").innerHTML = "<h2>Wordset: Chemistry Elements</h2>";
 				playButton.style.visibility = 'hidden';
 				wordsetDropdown.style.visibility = 'hidden';
-				if (playLine.hasChildNodes) {
-					playLine.removeChild(playButton);
-				}
+				removeChildren(playLine);
 				generateLetters();
 				generateText(elements);
 				break;
@@ -130,9 +155,7 @@ function startGame() {
 				document.getElementById("status-text").innerHTML = "<h2>Wordset: Web Development</h2>";
 				playButton.style.visibility = 'hidden';
 				wordsetDropdown.style.visibility = 'hidden';
-				if (playLine.hasChildNodes) {
-					playLine.removeChild(playButton);
-				}
+				removeChildren(playLine);
 				generateLetters();
 				generateText(webdev);
 				break;
@@ -140,9 +163,7 @@ function startGame() {
 				document.getElementById("status-text").innerHTML = "<h2>Wordset: Calculus</h2>";
 				playButton.style.visibility = 'hidden';
 				wordsetDropdown.style.visibility = 'hidden';
-				if (playLine.hasChildNodes) {
-					playLine.removeChild(playButton);
-				}
+				removeChildren(playLine);
 				generateLetters();
 				generateText(calculus);
 				break;
@@ -153,19 +174,27 @@ function startGame() {
 
 	} else {
 		playAgain();
+		again = true;
 	}
 }
 
 function playAgain() {
-	removeChildren(playLine);
-	removeChildren(dropdownLine);
-	removeChildren(playLine);
-	removeChildren(playLine);
-	removeChildren(playLine);
+	if (!again) {
 
-	playLine.appendChild(playButton);
-	dropdownLine.appendChild(wordsetDropdown);
-	wordsetDropdown.style.visibility = 'visible';
+		removeChildren(playLine);
+
+		removeChildren(dropdownLine);
+
+		playLine.appendChild(playButton);
+		dropdownLine.appendChild(wordsetDropdown);
+		wordsetDropdown.style.visibility = 'visible';
+
+	} else {
+		again = false;
+		reset();
+		startGame();
+	}
+
 }
 
 function generateLetters() {
@@ -200,6 +229,7 @@ function generateLetters() {
 	}
 
 	function findLetters(letter) {
+		updateText();
 		if (playGame === true) {
 			console.log(wordArray);
 			console.log(guessArray);
@@ -215,7 +245,7 @@ function generateLetters() {
 			} else {
 				guesses -= 1;
 			}
-
+			guessedLetters += letter + ' ';
 			document.getElementById('letter-' + letter).remove();
 			updateGame();
 
@@ -223,12 +253,12 @@ function generateLetters() {
 	}
 
 	function updateGame() {
-
+		updateText();
 		removeChildren(playLine);
 		playLine.appendChild(underscore);
 		updateHiddenWord();
 
-		setImage();
+		setImage()
 		if (guesses <= 0) {
 			win = false;
 			gameOver();
@@ -252,20 +282,27 @@ function generateLetters() {
 
 		}
 		var content = document.createTextNode(hiddenDisplay);
+		if (overGame === true) {
+			underscore.style.color = 'red';
+		}
 		underscore.appendChild(content);
 		underscore.removeChild(underscore.childNodes[0]);
 	}
 
 	function gameOver() {
+
 		playGame = false;
 		overGame = true;
 		if (win === true) {
+			wins++;
 			statusText.innerHTML = "<h2>You win!!</h2>";
 		} else {
+			losses++;
 			statusText.innerHTML = "<h2>LOSER!</h2>";
 			updateHiddenWord();
 		}
 
+		updateText();
 		removeChildren(dropdownLine);
 		dropdownLine.appendChild(playButton);
 		playButton.style.visibility = 'visible';
