@@ -62,13 +62,151 @@ window.onload = function () {
 	playButton.addEventListener("click", function () {
 		playGameButton();
 	});
+
+	document.addEventListener("keyup", function (event) {
+		if (playGame) {
+			switch (event.key) {
+				case 'a':
+					if (document.getElementById('letter-' + event.key.toUpperCase()) != null) {
+						document.getElementById('letter-' + event.key.toUpperCase()).click();
+					}
+					break;
+				case 'b':
+					if (document.getElementById('letter-' + event.key.toUpperCase()) != null) {
+						document.getElementById('letter-' + event.key.toUpperCase()).click();
+					}
+					break;
+				case 'c':
+					if (document.getElementById('letter-' + event.key.toUpperCase()) != null) {
+						document.getElementById('letter-' + event.key.toUpperCase()).click();
+					}
+					break;
+				case 'd':
+					if (document.getElementById('letter-' + event.key.toUpperCase()) != null) {
+						document.getElementById('letter-' + event.key.toUpperCase()).click();
+					}
+					break;
+				case 'e':
+					if (document.getElementById('letter-' + event.key.toUpperCase()) != null) {
+						document.getElementById('letter-' + event.key.toUpperCase()).click();
+					}
+					break;
+				case 'f':
+					if (document.getElementById('letter-' + event.key.toUpperCase()) != null) {
+						document.getElementById('letter-' + event.key.toUpperCase()).click();
+					}
+					break;
+				case 'g':
+					if (document.getElementById('letter-' + event.key.toUpperCase()) != null) {
+						document.getElementById('letter-' + event.key.toUpperCase()).click();
+					}
+					break;
+				case 'h':
+					if (document.getElementById('letter-' + event.key.toUpperCase()) != null) {
+						document.getElementById('letter-' + event.key.toUpperCase()).click();
+					}
+					break;
+				case 'i':
+					if (document.getElementById('letter-' + event.key.toUpperCase()) != null) {
+						document.getElementById('letter-' + event.key.toUpperCase()).click();
+					}
+					break;
+				case 'j':
+					if (document.getElementById('letter-' + event.key.toUpperCase()) != null) {
+						document.getElementById('letter-' + event.key.toUpperCase()).click();
+					}
+					break;
+				case 'k':
+					if (document.getElementById('letter-' + event.key.toUpperCase()) != null) {
+						document.getElementById('letter-' + event.key.toUpperCase()).click();
+					}
+					break;
+				case 'l':
+					if (document.getElementById('letter-' + event.key.toUpperCase()) != null) {
+						document.getElementById('letter-' + event.key.toUpperCase()).click();
+					}
+					break;
+				case 'm':
+					if (document.getElementById('letter-' + event.key.toUpperCase()) != null) {
+						document.getElementById('letter-' + event.key.toUpperCase()).click();
+					}
+					break;
+				case 'n':
+					if (document.getElementById('letter-' + event.key.toUpperCase()) != null) {
+						document.getElementById('letter-' + event.key.toUpperCase()).click();
+					}
+					break;
+				case 'o':
+					if (document.getElementById('letter-' + event.key.toUpperCase()) != null) {
+						document.getElementById('letter-' + event.key.toUpperCase()).click();
+					}
+					break;
+				case 'p':
+					if (document.getElementById('letter-' + event.key.toUpperCase()) != null) {
+						document.getElementById('letter-' + event.key.toUpperCase()).click();
+					}
+					break;
+				case 'q':
+					if (document.getElementById('letter-' + event.key.toUpperCase()) != null) {
+						document.getElementById('letter-' + event.key.toUpperCase()).click();
+					}
+					break;
+				case 'r':
+					if (document.getElementById('letter-' + event.key.toUpperCase()) != null) {
+						document.getElementById('letter-' + event.key.toUpperCase()).click();
+					}
+					break;
+				case 's':
+					if (document.getElementById('letter-' + event.key.toUpperCase()) != null) {
+						document.getElementById('letter-' + event.key.toUpperCase()).click();
+					}
+					break;
+				case 't':
+					if (document.getElementById('letter-' + event.key.toUpperCase()) != null) {
+						document.getElementById('letter-' + event.key.toUpperCase()).click();
+					}
+					break;
+				case 'u':
+					if (document.getElementById('letter-' + event.key.toUpperCase()) != null) {
+						document.getElementById('letter-' + event.key.toUpperCase()).click();
+					}
+					break;
+				case 'v':
+					if (document.getElementById('letter-' + event.key.toUpperCase()) != null) {
+						document.getElementById('letter-' + event.key.toUpperCase()).click();
+					}
+					break;
+				case 'w':
+					if (document.getElementById('letter-' + event.key.toUpperCase()) != null) {
+						document.getElementById('letter-' + event.key.toUpperCase()).click();
+					}
+					break;
+				case 'x':
+					if (document.getElementById('letter-' + event.key.toUpperCase()) != null) {
+						document.getElementById('letter-' + event.key.toUpperCase()).click();
+					}
+					break;
+				case 'y':
+					if (document.getElementById('letter-' + event.key.toUpperCase()) != null) {
+						document.getElementById('letter-' + event.key.toUpperCase()).click();
+					}
+					break;
+				case 'z':
+					if (document.getElementById('letter-' + event.key.toUpperCase()) != null) {
+						document.getElementById('letter-' + event.key.toUpperCase()).click();
+					}
+					break;
+				default:
+					break;
+			}
+		}
+	});
 }
 
 function removeChildren(item) {
 	for (var i = 0; i < item.childElementCount; i++) {
 		if (item.hasChildNodes()) {
 			item.removeChild(item.childNodes[i]);
-			console.log("child removed");
 		}
 	}
 }
@@ -115,9 +253,6 @@ function generateText(array) {
 
 	underscore = document.createElement('H3');
 
-	console.log(underscore);
-	console.log(word.length);
-
 	for (var i = 0; i < word.length; ++i) {
 		hiddenDisplay += '_ ';
 		guessArray.push('_');
@@ -127,7 +262,6 @@ function generateText(array) {
 	underscore.appendChild(content);
 	underscore.id = 'hidden-word';
 
-	console.log(hiddenDisplay);
 	playLine.appendChild(underscore);
 }
 
@@ -231,9 +365,6 @@ function generateLetters() {
 	function findLetters(letter) {
 		updateText();
 		if (playGame === true) {
-			console.log(wordArray);
-			console.log(guessArray);
-			console.log(letter);
 
 			if (wordArray.includes(letter)) {
 				for (var i = 0; i < wordArray.length; ++i) {
@@ -241,7 +372,7 @@ function generateLetters() {
 						guessArray[i] = wordArray[i];
 					}
 				}
-				console.log(guessArray);
+
 			} else {
 				guesses -= 1;
 			}
@@ -279,12 +410,16 @@ function generateLetters() {
 			else {
 				hiddenDisplay += '_ ';
 			}
-
 		}
-		var content = document.createTextNode(hiddenDisplay);
+
 		if (overGame === true) {
 			underscore.style.color = 'red';
+			hiddenDisplay = '';
+			for(var i = 0; i < word.length; ++i) {
+				hiddenDisplay += word[i] + ' ';
+			}
 		}
+		var content = document.createTextNode(hiddenDisplay);
 		underscore.appendChild(content);
 		underscore.removeChild(underscore.childNodes[0]);
 	}
