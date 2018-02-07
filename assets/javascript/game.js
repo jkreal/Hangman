@@ -249,95 +249,7 @@ function startGame() {
 	}
 }
 
-function removeChildren(item) {
-	for (var i = 0; i < item.childElementCount; i++) {
-		if (item.hasChildNodes()) {
-			item.removeChild(item.childNodes[i]);
-		}
-	}
-}
-
-function updateText() {
-	document.getElementById("guessed-letters").innerHTML = 'Guessed Letters: ' + guessedLetters;
-	document.getElementById("wins").innerHTML = 'Wins: ' + wins;
-	document.getElementById("losses").innerHTML = 'Losses: ' + losses;
-	document.getElementById("guesses-remaining").innerHTML = 'Guesses Remaining: ' + guesses;
-}
-
-function reset() {
-	image.src = "./assets/images/hangman-2.png";
-	overGame = false;
-	win = false;
-	underscore = ' ';
-	guesses = 7;
-	word = '@';
-	wordArray = [];
-	guessArray = [];
-	again = false;
-	guessedLetters = '';
-
-	updateText();
-
-	for (var i = 0; i < 26; ++i) {
-		if (document.getElementById('letter-' + letters[i]) != null) {
-
-			document.getElementById('letter-' + letters[i]).remove();
-
-		}
-	}
-
-	removeChildren(playLine);
-	removeChildren(dropdownLine);
-	removeChildren(letterButtons);
-
-}
-
-function generateText(array) {
-	var hiddenDisplay = '';
-	word = array[Math.floor(Math.random() * elements.length)];
-	wordArray = word.split('');
-
-	underscore = document.createElement('H3');
-
-	for (var i = 0; i < word.length; ++i) {
-		hiddenDisplay += '_ ';
-		guessArray.push('_');
-	}
-
-	var content = document.createTextNode(hiddenDisplay);
-	underscore.appendChild(content);
-	underscore.id = 'hidden-word';
-
-	playLine.appendChild(underscore);
-}
-
-function playGameButton() {
-	reset();
-	playGame = true;
-	startGame();
-}
-
-
-
-function playAgain() {
-	if (!again) {
-
-		removeChildren(playLine);
-
-		removeChildren(dropdownLine);
-
-		playLine.appendChild(playButton);
-		dropdownLine.appendChild(wordsetDropdown);
-		wordsetDropdown.style.visibility = 'visible';
-
-	} else {
-		again = false;
-		reset();
-		startGame();
-	}
-
-}
-
+//Generates the letter buttons you see below the image
 function generateLetters() {
 	guesses = 7;
 	setImage();
@@ -347,7 +259,7 @@ function generateLetters() {
 		var letter = document.createElement("BUTTON");
 		var content = document.createTextNode(letters[i]);
 
-
+		//Highlight vowels by making their class btn-info instead of btn-default
 		if (letters[i] == "A" || letters[i] == "E" || letters[i] == "I" || letters[i] == "O" || letters[i] == "U") {
 			letter.className = 'button btn-info letter';
 		} else {
@@ -370,7 +282,7 @@ function generateLetters() {
 	}
 }
 
-
+//Finds a letter in a word and reveals it in the guessArray. If letter not found, decrement guesses.
 function findLetters(letter) {
 	updateText();
 	if (playGame === true) {
@@ -392,6 +304,27 @@ function findLetters(letter) {
 	}
 }
 
+//Generates the hidden text that reveals itself as you guess correct letters
+function generateText(array) {
+	var hiddenDisplay = '';
+	word = array[Math.floor(Math.random() * elements.length)];
+	wordArray = word.split('');
+
+	underscore = document.createElement('H3');
+
+	for (var i = 0; i < word.length; ++i) {
+		hiddenDisplay += '_ ';
+		guessArray.push('_');
+	}
+
+	var content = document.createTextNode(hiddenDisplay);
+	underscore.appendChild(content);
+	underscore.id = 'hidden-word';
+
+	playLine.appendChild(underscore);
+}
+
+//Updates the elements of the game to control the flow of the game
 function updateGame() {
 	updateText();
 	removeChildren(playLine);
@@ -410,6 +343,85 @@ function updateGame() {
 	}
 }
 
+//"Play Game" button method. Resets the game back to 0, sets a flag, and starts the game.
+function playGameButton() {
+	reset();
+	playGame = true;
+	startGame();
+}
+
+
+
+//Resets everything back to default state.
+function reset() {
+
+	//All variables reset to default state.
+	image.src = "./assets/images/hangman-2.png";
+	overGame = false;
+	win = false;
+	underscore = ' ';
+	guesses = 7;
+	word = '@';
+	wordArray = [];
+	guessArray = [];
+	again = false;
+	guessedLetters = '';
+
+	updateText();
+
+	//Removes all letter elements if they still exist.
+	for (var i = 0; i < 26; ++i) {
+		if (document.getElementById('letter-' + letters[i]) != null) {
+
+			document.getElementById('letter-' + letters[i]).remove();
+
+		}
+	}
+
+	removeChildren(playLine);
+	removeChildren(dropdownLine);
+	removeChildren(letterButtons);
+
+}
+
+//Updates the status text eg. wins, losses, etc.
+function updateText() {
+	document.getElementById("guessed-letters").innerHTML = 'Guessed Letters: ' + guessedLetters;
+	document.getElementById("wins").innerHTML = 'Wins: ' + wins;
+	document.getElementById("losses").innerHTML = 'Losses: ' + losses;
+	document.getElementById("guesses-remaining").innerHTML = 'Guesses Remaining: ' + guesses;
+}
+
+//Removes every child from a parent node (poor children)
+function removeChildren(item) {
+	for (var i = 0; i < item.childElementCount; i++) {
+		if (item.hasChildNodes()) {
+			item.removeChild(item.childNodes[i]);
+		}
+	}
+}
+
+//Play again is called when "Play Button" is clicked after already having been pressed once.
+function playAgain() {
+	if (!again) {
+
+		removeChildren(playLine);
+
+		removeChildren(dropdownLine);
+
+		playLine.appendChild(playButton);
+		dropdownLine.appendChild(wordsetDropdown);
+		wordsetDropdown.style.visibility = 'visible';
+
+	} else {
+		again = false;
+		reset();
+		startGame();
+	}
+
+}
+
+//Updates the hidden word to reveal letters 
 function updateHiddenWord() {
 	var hiddenDisplay = '';
 	for (var i = 0; i < word.length; ++i) {
@@ -433,6 +445,7 @@ function updateHiddenWord() {
 	underscore.removeChild(underscore.childNodes[0]);
 }
 
+//Function is called when the game is over (guesses === 0 || no underscore found in word)
 function gameOver() {
 
 	playGame = false;
@@ -453,6 +466,7 @@ function gameOver() {
 	playButton.innerHTML = 'Play Again!';
 }
 
+//Sets the image to correspond with the number of guesses
 function setImage() {
 	switch (guesses) {
 		case 0:
