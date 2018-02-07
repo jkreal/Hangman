@@ -63,3 +63,36 @@ button{
 #hidden-word{
 	font-size: 72px;
 }
+
+
+@media only screen and (max-width: 500px){
+	.main-content{
+		height: 120vh;
+	}
+
+	#hidden-word{
+		height: 2vh;
+		margin-bottom: 20px;
+	}
+
+	[class*=' col-']{
+		width: 100%;
+	}
+
+	#letter-buttons{
+		top: 20vh;
+	}
+	
+	#hidden-word{
+		font-size: 32px;
+	}
+
+	.stats{
+		top: 0px;
+		margin-top: -15px;
+	}
+	
+	.stats-row{
+		margin-top: 20px;
+	}
+}
